@@ -1,3 +1,9 @@
 DataObject:
   extensions:
     - 'SearchUpdater_ObjectHandler'
+SiteTree:
+  extensions:
+    - 'SolrSearchSiteTreeExtension'
+ContentController:
+  extensions:
+    - 'SolrSearchControllerExtension'

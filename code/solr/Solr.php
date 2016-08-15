@@ -16,7 +16,7 @@ class Solr
      * path (default: /solr) - The suburl the solr service is available on
      *
      * Optional fields:
-     * version (default: 4) - The Solr server version. Currently supports 3 and 4 (you can add a sub-version like 4.5 if
+     * version (default: 6) - The Solr server version. Currently supports 3, 4 and 6 (you can add a sub-version like 4.5 if
      *   you like, but currently it has no effect)
      * service (default: depends on version, Solr3Service for 3, Solr4Service for 4)
      *   the class that provides actual communcation to the Solr server
@@ -70,13 +70,19 @@ class Solr
             'host' => 'localhost',
             'port' => 8983,
             'path' => '/solr',
-            'version' => '4'
+            'version' => '6'
         );
 
         // Build some by-version defaults
         $version = isset(self::$solr_options['version']) ? self::$solr_options['version'] : $defaults['version'];
 
-        if (version_compare($version, '4', '>=')) {
+		if (version_compare($version, '6', '>=')) {
+            $versionDefaults = array(
+                'service' => 'Solr6Service',
+                'extraspath' => Director::baseFolder().'/fulltextsearch/conf/solr/6/extras',
+                'templatespath' => Director::baseFolder().'/fulltextsearch/conf/solr/6/templates',
+            );
+        }elseif (version_compare($version, '4', '>=')) {
             $versionDefaults = array(
                 'service' => 'Solr4Service',
                 'extraspath' => Director::baseFolder().'/fulltextsearch/conf/solr/4/extras/',
