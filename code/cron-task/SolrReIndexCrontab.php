@@ -63,12 +63,15 @@ class SolrReIndexCrontab extends BuildTask
 				system("php {$root_path}/framework/cli-script.php dev/tasks/Solr_Reindex");
 				
 				//tmp notification msg.
-				mail('logs@internetrix.com.au', $domain . ' solr re-index - done', 'solr re-index - done');
+// 				mail('logs@internetrix.com.au', $domain . ' solr re-index - done', 'solr re-index - done');
+				$this->extend('afterSolrReindexSuccess', $domain);
 				
 				$msg = 'Solr has been re-indexed.';
 			}		
 			catch (Exception $e) {
-				mail('errors@internetrix.com.au', $domain . ' SolrReIndexCrontab.php error', 'SolrReIndexCrontab.php error');
+// 				mail('errors@internetrix.com.au', $domain . ' SolrReIndexCrontab.php error', 'SolrReIndexCrontab.php error');
+				$this->extend('afterSolrReindexFailed', $domain);
+				
 				$msg = 'system error';
 			}
 		}
